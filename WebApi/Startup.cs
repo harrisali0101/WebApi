@@ -13,6 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using FF.Application.Models;
 
 namespace WebApi
 {
@@ -34,7 +37,8 @@ namespace WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
-
+            services.AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ApplicantDetailsValidator>());
             services.AddCors();
             services.AddScoped<ApplicantDetailsRepository>();
             services.AddDbContext<ApplicantDetailsContext>(opt => opt.UseInMemoryDatabase("Applicants"));
