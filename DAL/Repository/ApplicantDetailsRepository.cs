@@ -13,37 +13,7 @@ namespace DAL.Repository
         public ApplicantDetailsRepository(ApplicantDetailsContext context)
         {
             this._context = context;
-            if (_context.ApplicantDetails.Count() == 0)
-            {
-                _context.ApplicantDetails.AddRange(
-                    //Adding Example Data.
-                    new ApplicantDetails
-                    {
-                        Name="Harris Ali",
-                        FamilyName="Malik",
-                        Address="House 171, Street 9 , Dha Phase 2.",
-                        CountryOfOrigin="Pakistan",
-                        EmailAddress="ali@gmail.com",
-                        Age=24,
-                        Hired=false
-                        
-                    },
-                    new ApplicantDetails
-                    {
-                        Name = "Hira Ali",
-                        FamilyName = "Malik",
-                        Address = "House 171, Street 9 , Dha Phase 2.",
-                        CountryOfOrigin = "Pakistan",
-                        EmailAddress = "Hira@gmail.com",
-                        Age = 24,
-                        Hired = false
-
-                    }
-
-
-                    );
-                _context.SaveChanges();
-            }
+            
         }
         /// <summary>
         /// This method is called to get all the applicants data.
@@ -51,7 +21,7 @@ namespace DAL.Repository
         /// <returns>List of Applicant data.</returns>
         public IEnumerable<ApplicantDetails> GetApplicantDetails()
         {
-            return _context.ApplicantDetails.ToList();
+            return _context.Applicant.ToList();
         }
 
         /// <summary>
@@ -62,7 +32,7 @@ namespace DAL.Repository
         /// <returns>Return applicant data according to the id received.</returns>
         public bool TryGetApplicant(int id, out ApplicantDetails applicantDetails)
         {
-            applicantDetails = _context.ApplicantDetails.Find(id);
+            applicantDetails = _context.Applicant.Find(id);
             return (applicantDetails != null);
         }
         /// <summary>
@@ -72,7 +42,7 @@ namespace DAL.Repository
         public async Task<int> AddApplicantDetailsAsync(ApplicantDetails applicantDetails)
         {
             int rowsAffected = 0;
-            _context.ApplicantDetails.Add(applicantDetails);
+            _context.Applicant.Add(applicantDetails);
             rowsAffected = await _context.SaveChangesAsync();
             return rowsAffected;
         }
@@ -84,8 +54,8 @@ namespace DAL.Repository
         {
             ApplicantDetails ad;
             int rowsAffected = 0;
-            ad = _context.ApplicantDetails.Find(id);
-            _context.ApplicantDetails.Remove(ad);
+            ad = _context.Applicant.Find(id);
+            _context.Applicant.Remove(ad);
             rowsAffected = await _context.SaveChangesAsync();
             return rowsAffected;
 
@@ -98,7 +68,7 @@ namespace DAL.Repository
         /// <param name="applicantDetails"></param>
         public async Task<int> PutApplicantDetails(int id, ApplicantDetails applicantDetails)
         {
-            var existAD = _context.ApplicantDetails.Find(id);
+            var existAD = _context.Applicant.Find(id);
             int rowsAffected = 0;
             if (existAD.ID != 0)
             {
