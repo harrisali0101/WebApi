@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using FF.Application.Models;
+using FF.Data.Repository;
 
 namespace WebApi
 {
@@ -40,8 +41,12 @@ namespace WebApi
             services.AddMvc()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<ApplicantDetailsValidator>());
             services.AddCors();
-            services.AddScoped<ApplicantDetailsRepository>();
+            services.AddScoped<IApplicantDetailsRepository, ApplicantDetailsRepository>();
+            
+            //For connecting with InMemory DB.
             //services.AddDbContext<ApplicantDetailsContext>(opt => opt.UseInMemoryDatabase("Applicants"));
+            
+            //To connect MySql Database.
             services.AddDbContext<ApplicantDetailsContext>(options => options.UseMySql(Configuration.GetConnectionString("Default")));
         }
 

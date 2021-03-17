@@ -21,5 +21,7 @@ namespace DAL.Models
         public int Age { get; set; }
 
         public bool Hired { get; set; }
+
+        
     }
 }
